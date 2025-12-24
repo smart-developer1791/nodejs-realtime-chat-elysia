@@ -1,0 +1,25 @@
+{
+  "name": "nodejs-realtime-chat-elysia",
+  "version": "1.0.0",
+  "description": "Minimal real-time chat server using Elysia framework with WebSocket support and modern Tailwind UI",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node server.ts"
+  },
+  "keywords": ["nodejs", "chat", "typescript", "websocket", "elysia", "tailwind"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@elysiajs/html": "^1.4.0",
+    "@elysiajs/node": "^1.4.2",
+    "elysia": "^1.4.19"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
