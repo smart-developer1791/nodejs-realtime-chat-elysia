@@ -72,6 +72,7 @@ npm run dev
 - Messages are appended dynamically with **fade-in animation**.
 - Each user gets a **unique background color**.
 - Own messages are aligned to the right, others to the left.
+- **WebSocket connection uses WSS** on HTTPS pages to avoid Mixed Content errors (important for Render deployment).
 
 ---
 
