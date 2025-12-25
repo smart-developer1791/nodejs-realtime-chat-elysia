@@ -129,18 +129,18 @@ const chatHTML = `
 // ----------------------------
 
 // Set of connected WebSocket clients
-const clients = new Set<any>();
+const clients = new Set<any>()
 
 // Store chat history for new connections
-const history: { user: string; text: string }[] = [];
+const history: { user: string; text: string }[] = []
 
 // ----------------------------
 // Create Elysia server with Node adapter
 // ----------------------------
-const app = new Elysia({ adapter: node() }).use(html());
+const app = new Elysia({ adapter: node() }).use(html())
 
 // Serve the chat HTML page
-app.get('/', () => chatHTML);
+app.get('/', () => chatHTML)
 
 // ----------------------------
 // WebSocket endpoint
@@ -148,34 +148,48 @@ app.get('/', () => chatHTML);
 app.ws('/ws', {
   open(ws) {
     // Save raw WebSocket object
-    clients.add(ws.raw);
+    clients.add(ws.raw)
 
     // Send chat history to newly connected client
     for (const msg of history) {
-      ws.raw.send(JSON.stringify(msg));
+      ws.raw.send(JSON.stringify(msg))
     }
   },
 
   message(_ws, message) {
-    const msg = JSON.parse(message as string);
+    const msg = JSON.parse(message as string)
 
-    history.push(msg); // store message in history
+    history.push(msg) // store message in history
 
     // Broadcast message to all connected clients
     for (const client of clients) {
       if (client && client.send) {
-        client.send(JSON.stringify(msg));
+        client.send(JSON.stringify(msg))
       }
     }
   },
 
   close(ws) {
-    clients.delete(ws.raw); // remove client on disconnect
+    clients.delete(ws.raw) // remove client on disconnect
   }
-});
+})
 
 // ----------------------------
 // Start server
 // ----------------------------
-const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
-app.listen(PORT, () => console.log(`🚀 Chat running at http://localhost:${PORT}`));
+
+// Port configuration with environment variable fallback
+const PORT = Number(process.env.PORT) || 8080
+
+// Start the HTTP server
+app.listen(PORT, () => {
+  console.log('='.repeat(60))
+  console.log('  💬 REAL-TIME CHAT')
+  console.log('='.repeat(60))
+  console.log(`  🚀 Server:       http://localhost:${PORT}`)
+  console.log(`  📝 Frontend SPA: http://localhost:${PORT}`)
+  console.log('='.repeat(60))
+  console.log("  Runtime: Node.js via @elysiajs/node adapter")
+  console.log('  Press Ctrl+C to stop')
+  console.log('='.repeat(60))
+})
